@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+<!-- link your css -->
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'app/css/index.css' %}">
+{% endblock %}
+
+<!-- Tilte -->
+{% block title %}
+<title>Index</title>
+{% endblock %}
+
+<!-- content specific to this template -->
+{% block content %}
+<h1>home</h1>
+{% endblock %}
