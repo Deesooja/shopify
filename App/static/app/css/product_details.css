@@ -1,0 +1,22 @@
+h1{
+    color: red;
+}
+.table_decoration td, .table_decoration th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .table_decoration tr:nth-child(even){background-color: #f2f2f2;}
+  
+  .table_decoration tr:hover {background-color: #ddd;}
+  
+  .table_decoration th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }
+  .header_div{
+    margin: 10px;
+  }

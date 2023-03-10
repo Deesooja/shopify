@@ -1,0 +1,127 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'app/css/product_details.css' %}">
+{% endblock %}
+
+{% block title %}
+<title>Product Details </title>
+{% endblock %}
+
+
+{% block content %}
+
+<!------------------------------------- product Variants Table------------------>
+<div class="header_div">
+    <h1>Product-Variants</h1>
+</div>
+<table id="datatable_variants" class="table_decoration">
+</table>
+
+<!------------------------------------- product options Table ------------------>
+<div class="header_div">
+    <h1>Product-Options</h1>
+</div>
+<table id="datatable_options" class="table_decoration">
+</table>
+
+<!------------------------------------- product Images Table ------------------>
+<div class="header_div">
+    <h1>Product-Imagas</h1>
+</div>
+<table id="datatable_images" class="table_decoration">
+</table>
+
+<!------------------------------------- product Image Table ------------------>
+<div class="header_div">
+    <h1>Product-Imaga</h1>
+</div>
+<table id="datatable_image" class="table_decoration">
+</table>
+
+<!------------------------------------- product Variants ------------------>
+<script language="javascript">
+
+    $(document).ready(function () {
+        AjaxDatatableViewUtils.initialize_table(
+            $('#datatable_variants'),
+            "{% url 'ajax_datatable_products_details' %}",
+            {
+                // extra_options (example)
+                processing: false,
+                autoWidth: false,
+                full_row_select: true,
+                scrollX: false
+            }, {
+            id: '{{id}}'
+        },
+        );
+    });
+
+</script>
+<!------------------------------------- product options ------------------>
+<script language="javascript">
+
+    $(document).ready(function () {
+        AjaxDatatableViewUtils.initialize_table(
+            $('#datatable_options'),
+            "{% url 'ajax_datatable_products_options' %}",
+            {
+                // extra_options (example)
+                processing: false,
+                autoWidth: false,
+                full_row_select: true,
+                scrollX: false
+            }, {
+            id: '{{id}}'
+        },
+        );
+    });
+
+</script>
+
+<!------------------------------------- product images ------------------>
+<script language="javascript">
+
+    $(document).ready(function () {
+        AjaxDatatableViewUtils.initialize_table(
+            $('#datatable_images'),
+            "{% url 'ajax_datatable_products_images' %}",
+            {
+                // extra_options (example)
+                processing: false,
+                autoWidth: false,
+                full_row_select: true,
+                scrollX: false
+            }, {
+            id: '{{id}}'
+        },
+        );
+    });
+
+</script>
+
+<!------------------------------------- product image ------------------>
+<script language="javascript">
+
+    $(document).ready(function () {
+        AjaxDatatableViewUtils.initialize_table(
+            $('#datatable_image'),
+            "{% url 'ajax_datatable_products_image' %}",
+            {
+                // extra_options (example)
+                processing: false,
+                autoWidth: false,
+                full_row_select: true,
+                scrollX: false
+            }, {
+            id: '{{id}}'
+        },
+        );
+    });
+
+</script>
+
+
+{% endblock %}
