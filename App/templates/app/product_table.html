@@ -9,18 +9,21 @@
 <title>Product page </title>
 {% endblock %}
 
+
 {% block content %}
 <h1>Product-table</h1>
+<button onclick="click()"> click</button>
 
 <table id="datatable_product">
 </table>
 
+<!-- <script src="{% static 'app/js/product_table.js' %}"></script> -->
 <script language="javascript">
-
+   
     $(document).ready(function() {
         AjaxDatatableViewUtils.initialize_table(
             $('#datatable_product'),
-            "{% url 'ajax_datatable_product' %}",
+            "{% url 'ajax_datatable_products' %}",
             {
                 // extra_options (example)
                 processing: false,
@@ -35,6 +38,5 @@
     });
 
 </script>
-
 
 {% endblock %}

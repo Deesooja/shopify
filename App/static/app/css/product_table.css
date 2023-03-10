@@ -1,3 +1,19 @@
 h1{
     color: red;
 }
+#datatable_product td, #datatable_product th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #datatable_product tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #datatable_product tr:hover {background-color: #ddd;}
+  
+  #datatable_product th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+  }

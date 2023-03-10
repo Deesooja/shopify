@@ -11,12 +11,12 @@
 
     {% block customcss %}
     <!-- link your css -->
-    {% endblock %}
+    {% endblock customcss %}
 
     {% block title %}
     <title>base</title>
    
-    {% endblock %}
+    {% endblock title %}
     
 </head>
 
@@ -25,10 +25,13 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="{% static 'ajax_datatable/js/utils.js' %}"></script>
     <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+    
+
     {% block content %}
     <!-- content specific to this template -->
 
-    {% endblock %}
+    {% endblock content %}
 
 </body>
 

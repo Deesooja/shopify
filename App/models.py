@@ -20,6 +20,7 @@ class Product(models.Model):
 
     # def __init__(self, *args, **kwargs):
     #     return str( self.title)
+    
 
 
 
