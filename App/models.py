@@ -19,7 +19,9 @@ class Product(models.Model):
     admin_graphql_api_id = models.CharField(max_length=255)
 
     # def __init__(self, *args, **kwargs):
-    #     return str( self.title)
+    #     return str( self.id)
+    def __str__(self):
+        return str(self.product_id)
     
 
 

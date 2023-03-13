@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views import View
 from .module.insert_data_in_db import insert_data
+from .module.model_to_dict import model_obj_to_dict_converter
+from django.core.serializers.json import DjangoJSONEncoder
 from ajax_datatable.views import AjaxDatatableView
 from django.contrib.auth.models import Permission
 from .module.shopify import *
@@ -14,13 +16,19 @@ class IndexView(View):
 
     def get(self,request,*args, **kwargs):
         context={}
+        product_obj=Product.objects.get(id=66)
+        product_dict=model_obj_to_dict_converter(product_obj)
+      
+        product_dict=json.dumps(product_dict,cls=DjangoJSONEncoder)
+        print(product_dict)
+
         shopify_data=get_shopify_data()
         # print(shopify_data)
         for product_dict in shopify_data.get('products'):
 
             if not Product.objects.filter(product_id=product_dict.get('id')).exists():
 
-                print('product_id',product_dict.get('id'))
+                # print('product_id',product_dict.get('id'))
 
                 product_obj=insert_data(Product,product_dict,None,None,'product_id')
 
@@ -59,8 +67,17 @@ class CreateDataView(View):
 
     def get(self,request,*args, **kwargs):
         context={}
-        shopify_data=create_shopify_data()
-        # print(shopify_data)
+        product_obj=Product.objects.get(id=66)
+
+        product_dict=model_obj_to_dict_converter(product_obj)
+
+        product_dict=json.dumps(product_dict,cls=DjangoJSONEncoder)
+
+        print(product_dict)
+
+        shopify_data=create_shopify_data(product_dict,False)
+
+        print(shopify_data)
 
         # for product_dict in shopify_data.get('products'):
 
@@ -150,9 +167,8 @@ class DeteteDataView(View):
 
     def get(self,request,*args, **kwargs):
         context={}
-        delete_shopify_data('products',7457086931136)
-
-        return HttpResponse({"massage":"Data deleted"})
+        delete_shopify_data('products',7461053628608)
+        return HttpResponse("Data deleted")
     
 
 
