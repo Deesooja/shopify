@@ -33,18 +33,19 @@ def create_shopify_data(product=None,file=True):
     return response.json()
 
 
-def update_shopify_data():
+def update_shopify_data(product_id,product=None,file=True):
 
-    url="https://vabhas-test.myshopify.com/admin/api/2023-01/products/7461016174784.json"
+    url="https://vabhas-test.myshopify.com/admin/api/2023-01/products/%s.json" % (product_id)
     headers={
         "Content-Type":"application/json",
         "X-Shopify-Access-Token":"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"
     }
-    
-    with open('update_data.json', 'r') as f:
-        data = json.load(f)
+    data=product
+    if file:
+        with open('update_data.json', 'r') as f:
+            data = json.load(f)
 
-    response=requests.put(url=url,json=data,headers=headers)
+    response=requests.put(url=url,data=data,headers=headers)
 
     return response.json()
 
