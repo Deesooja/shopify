@@ -1,6 +1,7 @@
 import requests
 import json
 from App.models import *
+from App.ApiResponseObject import ApiResponse
 
 def get_shopify_data():
 
@@ -12,7 +13,7 @@ def get_shopify_data():
 
     response=requests.get(url=url,headers=headers)
     print(response.status_code)
-    return response.json()
+    return ApiResponse(response_code=response.status_code, body=response.json(), headers=response.headers)
 
 
 def create_shopify_data(product=None,file=True):
@@ -24,13 +25,14 @@ def create_shopify_data(product=None,file=True):
         "X-Shopify-Access-Token":"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"
     }
     data=product
+    
     if file:
         with open('post_data.json', 'r') as f:
             data = json.load(f)
 
     response=requests.post(url=url,data=data,headers=headers)
 
-    return response.json()
+    return ApiResponse(response_code=response.status_code, body=response.json(), headers=response.headers) 
 
 
 def update_shopify_data(product_id,product=None,file=True):
@@ -47,7 +49,7 @@ def update_shopify_data(product_id,product=None,file=True):
 
     response=requests.put(url=url,data=data,headers=headers)
 
-    return response.json()
+    return ApiResponse(response_code=response.status_code, body=response.json(), headers=response.headers)
 
 def delete_shopify_data(type,id):
 

@@ -6,7 +6,7 @@ from .models import *
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id','product_id', 'title', 'vendor', 'product_type', 'created_at', 'updated_at', 'published_at', 'status', 'published_scope','admin_graphql_api_id')
+    list_display = ('id','product_id','shopify_updated_status', 'title', 'vendor', 'product_type', 'created_at', 'updated_at', 'published_at', 'status', 'published_scope','admin_graphql_api_id')
 
 @admin.register(ProductVariant)
 class ProductVariantAdmin(admin.ModelAdmin):
@@ -29,3 +29,32 @@ class ProductImagesAdmin(admin.ModelAdmin):
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
     list_display = ('id', 'product_id', 'position', 'src', 'alt')
+
+
+#<-------------------------------------------For Crating shopify data db----------------> 
+
+@admin.register(CreateProduct)
+class CreateProductAdmin(admin.ModelAdmin):
+    list_display = ('id','title', 'body_html', 'status', 'shopify_created_status', 'created_at', 'updated_at')
+
+@admin.register(CreateProductVariant)
+class CreateProductVariantAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'sku', 'title', 'price', 'inventory_quantity', 'inventory_management', 'grams','option1','option2','created_at','updated_at')
+
+
+@admin.register(CreateProductOption)
+class CreateProductOptionAdmin(admin.ModelAdmin):
+    list_display = ('id','product', 'name','created_at','updated_at')
+
+@admin.register(CreateProductOptionValues)
+class CreateProductOptionValuesAdmin(admin.ModelAdmin):
+    list_display = ('id','product', 'option_id','value','created_at','updated_at')
+
+@admin.register(CreateProductImages)
+class CreateProductImagesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product',  'src', 'alt','created_at','updated_at')
+
+
+@admin.register(CreateProductImage)
+class CreateProductImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product',  'src', 'alt','created_at','updated_at')

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'App',
     'ajax_datatable',
+    'django_cron',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CRON_CLASSES = [
+    'App.crons.jobSchedular.CheckAndCreateProduct',
+    'App.crons.jobSchedular.CheckAndUpdateProduct',
+]
 ROOT_URLCONF = 'ShopifyProject.urls'
 
 TEMPLATES = [
@@ -136,3 +141,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+GET_POST_URL='https://%s/admin/api/2023-01/products.json'
+
+UPDATE_DELETE="https://%s/admin/api/2023-01/products/%s.json"
+
+HEADER={
+        "Content-Type":"application/json",
+
+        "X-Shopify-Access-Token":""
+        }
