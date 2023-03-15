@@ -57,11 +57,12 @@ class CreateDataView(View):
         # print(url)
         # print(headers)
 
-        # created=creating_shopify_product_by_create_dbtable(shop,product_object)
-        # if created:
-        #     print('views ok')
-        # else:
-        #     print('not  ok')
+        created=creating_shopify_product_by_create_dbtable(shop,product_object)
+        
+        if created:
+            print('views ok')
+        else:
+            print('not  ok')
 
 
 
@@ -91,7 +92,7 @@ class UpdateDataView(View):
 
         shop=Shop.objects.get(id=1)
 
-        updated=updating_shopify_product_by_dbtable(shop , product_object )
+        updated=updating_shopify_product_by_dbtable(product_object )
 
         if updated:
 

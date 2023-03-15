@@ -1,5 +1,5 @@
 
-def insert_data(model,data,produt_obj,option_obj,new_name_of_id=None,update=False):
+def insert_data(model, data, produt_obj ,option_obj ,new_name_of_id=None , update=False , shop=None):
     fields=[  field.name for field in model._meta.get_fields()]
     print('fields',fields)
     # print('data',data)
@@ -10,6 +10,7 @@ def insert_data(model,data,produt_obj,option_obj,new_name_of_id=None,update=Fals
     data['option']=option_obj
     data['shopify_created_status']=False
     data['shopify_updated_status']=True
+    data['shop']=shop
     
     # data['name']=data.get('title')
     # print('data',data)

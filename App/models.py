@@ -2,8 +2,21 @@ from django.db import models
 
 # Create your models here.
 
+# <---------------------------------------------------------- Shop --------------->
+
+class Shop(models.Model):
+    domain_name = models.CharField(max_length=250)
+    access_token = models.CharField(max_length=255)
+    use_it = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.domain_name)
+
 # <----------------------------------------------------------Created Products --------------->
 class Product(models.Model):
+    shop=models.ForeignKey(Shop,on_delete=models.CASCADE,null=True)
     product_id = models.BigIntegerField()
     title = models.CharField(max_length=255)
     body_html = models.TextField()
@@ -152,9 +165,3 @@ class CreateProductImage(models.Model):
 
 # <--------------------------------------------------Shop_table------->
 
-class Shop(models.Model):
-    domain_name = models.CharField(max_length=250)
-    access_token = models.CharField(max_length=255)
-    use_it = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)

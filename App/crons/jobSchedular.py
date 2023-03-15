@@ -42,13 +42,9 @@ class CheckAndUpdateProduct(CronJobBase):
 
         print('Cron_job Hited :- CheckAndUpdateProduct')
 
-        product_object=Product.objects.get(id=66)
-        
-        shop=Shop.objects.get(use_it=True)
-
         for product_object in Product.objects.filter(shopify_updated_status=False):
 
-            updated=updating_shopify_product_by_dbtable(shop , product_object )
+            updated=updating_shopify_product_by_dbtable(product_object)
 
             if updated:
 

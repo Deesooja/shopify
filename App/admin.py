@@ -6,7 +6,7 @@ from .models import *
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id','product_id','shopify_updated_status', 'title', 'vendor', 'product_type', 'created_at', 'updated_at', 'published_at', 'status', 'published_scope','admin_graphql_api_id')
+    list_display = ('id','shop','product_id','shopify_updated_status', 'title', 'vendor', 'product_type', 'created_at', 'updated_at', 'published_at', 'status', 'published_scope','admin_graphql_api_id')
 
 @admin.register(ProductVariant)
 class ProductVariantAdmin(admin.ModelAdmin):

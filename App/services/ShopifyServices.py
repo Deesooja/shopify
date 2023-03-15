@@ -23,7 +23,7 @@ def creating_shopify_product_by_create_dbtable(shop , product_object):
 
     if response.status_code ==201:
 
-        created=createProduct(response.body.get('product'))  # OK
+        created=createProduct(shop , response.body.get('product'))  # OK
 
         if created:
 
@@ -36,7 +36,7 @@ def creating_shopify_product_by_create_dbtable(shop , product_object):
     return False
 
 
-def updating_shopify_product_by_dbtable(shop , product_object):
+def updating_shopify_product_by_dbtable(product_object):
 
     # for product_object in Product.objects.filter(shopify_updated_status=False):
 
@@ -46,7 +46,7 @@ def updating_shopify_product_by_dbtable(shop , product_object):
 
     product_json=json.dumps(product_dict,cls=DjangoJSONEncoder)
 
-    response=update_shopify_data(shop=shop , product_id=product_object.product_id , product=product_json, file=False)
+    response=update_shopify_data(shop=product_object.shop , product_id=product_object.product_id , product=product_json, file=False)
     # print('response.body',response.body)
 
     if response.isSuccess:

@@ -1,10 +1,11 @@
 from App.module.insert_data_in_db import *
 from App.models import *
 
-def createProduct(product_dict):
+def createProduct(shop , product_dict):
+
     print('product_dict',product_dict.get('id'))
 
-    product_obj=insert_data(Product,product_dict,None,None,'product_id')
+    product_obj=insert_data(Product,product_dict,None,None,'product_id',False, shop)
 
     if len(product_dict.get('variants')) >0:
 
