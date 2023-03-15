@@ -1,6 +1,9 @@
-from django_cron import CronJobBase, Schedule
+from django_cron import CronJobBase, Schedule 
 from App.services.ShopifyServices import *
 from App.models import *
+from threading import Thread
+from App.Theads import CreateTheads,createCronJob,updateCronJob
+import time
 
 class CheckAndCreateProduct(CronJobBase):
 
@@ -13,7 +16,7 @@ class CheckAndCreateProduct(CronJobBase):
     def do(self):
 
         print('Cron_job Hited :- CheckAndCreateProduct')
-
+    
         shop=Shop.objects.get(use_it=True)
 
         for product_object in CreateProduct.objects.filter(shopify_created_status=False):
@@ -28,6 +31,7 @@ class CheckAndCreateProduct(CronJobBase):
 
             else:
                 print("Not Done  :- CheckAndCreateProduct")
+
                 
 
 class CheckAndUpdateProduct(CronJobBase):
@@ -51,6 +55,17 @@ class CheckAndUpdateProduct(CronJobBase):
                 print("Done :- CheckAndUpdateProduct")
 
 
-        
-       
-       
+first_thread = CreateTheads(target_fun=CheckAndCreateProduct().do)
+
+
+second_thread = CreateTheads(target_fun=CheckAndUpdateProduct().do)
+
+# start the threads
+first_thread.start()
+
+second_thread.start()
+
+# wait for the threads to finish
+first_thread.join()
+
+second_thread.join()

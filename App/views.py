@@ -13,6 +13,7 @@ import json
 from App.services.ShopifyServices import *
 from App.services.RestServices import *
 from App.services.GenralServices import *
+from App.Theads import createCronJob,CreateTheads
 
 
 # Create your views here.
@@ -48,21 +49,27 @@ class CreateDataView(View):
     def get(self,request,*args, **kwargs):
 
         context={}
-        
+        # t=CreateTheads(target_fun=createCronJob)
+        # t.daemon=True
+        # t.start()
+        # createCronJob()
+        # updateCronJob()
 
-        product_object=CreateProduct.objects.get(id=9)
-        shop=Shop.objects.get(id=1)
+        # product_object=CreateProduct.objects.get(id=9)
+        # shop=Shop.objects.get(id=1)
         # url,headers=api_and_header(shop)
       
         # print(url)
         # print(headers)
 
-        created=creating_shopify_product_by_create_dbtable(shop,product_object)
-        
-        if created:
-            print('views ok')
-        else:
-            print('not  ok')
+
+
+        # created=creating_shopify_product_by_create_dbtable(shop,product_object)
+
+        # if created:
+        #     print('views ok')
+        # else:
+        #     print('not  ok')
 
 
 
@@ -88,19 +95,31 @@ class UpdateDataView(View):
     def get(self,request,*args, **kwargs):
         context={}
 
-        product_object=Product.objects.get(id=66)
+        def create(word):
+            for i in range(5):
+                print(word)
 
-        shop=Shop.objects.get(id=1)
+        def update(word):
+            for i in range(5):
+                print(word)
 
-        updated=updating_shopify_product_by_dbtable(product_object )
 
-        if updated:
 
-            print('updated')
 
-        else:
 
-            print('not updated')
+        # product_object=Product.objects.get(id=66)
+
+        # shop=Shop.objects.get(id=1)
+
+        # updated=updating_shopify_product_by_dbtable(product_object )
+
+        # if updated:
+
+        #     print('updated')
+
+        # else:
+
+        #     print('not updated')
         
 
 
@@ -149,6 +168,6 @@ class ProductDetailsTableView(View):
   
     
 
-
+# <--------------------------------Creating views class for Endpoint------------------->
 
 
