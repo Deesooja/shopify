@@ -14,11 +14,13 @@ class CheckAndCreateProduct(CronJobBase):
 
         print('Cron_job Hited :- CheckAndCreateProduct')
 
+        shop=Shop.objects.get(use_it=True)
+
         for product_object in CreateProduct.objects.filter(shopify_created_status=False):
 
             print("Starting job :- CheckAndCreateProduct")
 
-            created=creating_shopify_product_by_create_dbtable(product_object)
+            created=creating_shopify_product_by_create_dbtable(shop,product_object)
 
             if created:
 
@@ -40,14 +42,19 @@ class CheckAndUpdateProduct(CronJobBase):
 
         print('Cron_job Hited :- CheckAndUpdateProduct')
 
-        # for product_object in Product.objects.filter(shopify_update_status=False):
+        product_object=Product.objects.get(id=66)
+        
+        shop=Shop.objects.get(use_it=True)
 
-        print("Starting job :- CheckAndUpdateProduct")
+        for product_object in Product.objects.filter(shopify_updated_status=False):
 
-        updating_shopify_product_by_dbtable()
+            updated=updating_shopify_product_by_dbtable(shop , product_object )
 
-        # if updated:
+            if updated:
 
-        #     print("Done :- CheckAndUpdateProduct")
+                print("Done :- CheckAndUpdateProduct")
+
+
+        
        
        

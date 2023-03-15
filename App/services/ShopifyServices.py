@@ -5,7 +5,7 @@ from App.module.model_to_dict import *
 from App.module.DatabaseServises import *
 import json
 
-def creating_shopify_product_by_create_dbtable(product_object):
+def creating_shopify_product_by_create_dbtable(shop , product_object):
 
     product_dict=model_obj_to_dict_converter_for_create_table(product_object)
 
@@ -17,7 +17,7 @@ def creating_shopify_product_by_create_dbtable(product_object):
 
     # print(product_json)
 
-    response=create_shopify_data(product_json,False)
+    response=create_shopify_data(shop,product_json,False)
 
     print('response.status_code',response.status_code)
 
@@ -35,27 +35,28 @@ def creating_shopify_product_by_create_dbtable(product_object):
     
     return False
 
-def updating_shopify_product_by_dbtable():
 
-    for product_object in Product.objects.filter(shopify_updated_status=False):
+def updating_shopify_product_by_dbtable(shop , product_object):
 
-        # product_object=Product.objects.get(id=66)
+    # for product_object in Product.objects.filter(shopify_updated_status=False):
 
-        product_dict=model_obj_to_dict_converter(product_object,update=True)
+    # product_object=Product.objects.get(id=66)
 
-        product_json=json.dumps(product_dict,cls=DjangoJSONEncoder)
+    product_dict=model_obj_to_dict_converter(product_object,update=True)
 
-        response=update_shopify_data(product_object.product_id, product_json, file=False)
-        # print('response.body',response.body)
+    product_json=json.dumps(product_dict,cls=DjangoJSONEncoder)
 
-        if response.isSuccess:
+    response=update_shopify_data(shop=shop , product_id=product_object.product_id , product=product_json, file=False)
+    # print('response.body',response.body)
 
-            product_object.shopify_updated_status=True
-            product_object.save()
+    if response.isSuccess:
 
-            return True
-        return False
+        product_object.shopify_updated_status=True
+        product_object.save()
+
+        return True
+    return False
     
-    return True
+    
     
 

@@ -54,7 +54,11 @@ class CreateProductOptionValuesAdmin(admin.ModelAdmin):
 class CreateProductImagesAdmin(admin.ModelAdmin):
     list_display = ('id', 'product',  'src', 'alt','created_at','updated_at')
 
-
 @admin.register(CreateProductImage)
 class CreateProductImageAdmin(admin.ModelAdmin):
     list_display = ('id', 'product',  'src', 'alt','created_at','updated_at')
+
+# <------------------------------------------------Shop Table---------------->
+@admin.register(Shop)
+class CreateProductImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'domain_name',  'access_token', 'use_it', 'created_at','updated_at')

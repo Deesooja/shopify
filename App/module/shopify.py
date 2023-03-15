@@ -2,28 +2,21 @@ import requests
 import json
 from App.models import *
 from App.ApiResponseObject import ApiResponse
+from App.services.GenralServices import *
 
-def get_shopify_data():
+def get_shopify_data(shop):
 
-    url="https://vabhas-test.myshopify.com/admin/api/2023-01/products.json"
-    headers={
-        "Content-Type":"application/json",
-        "X-Shopify-Access-Token":"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"
-    }
+    url,headers=api_and_header(shop)
 
     response=requests.get(url=url,headers=headers)
     print(response.status_code)
     return ApiResponse(response_code=response.status_code, body=response.json(), headers=response.headers)
 
 
-def create_shopify_data(product=None,file=True):
+def create_shopify_data(shop,product,file=False):
 
-    url="https://vabhas-test.myshopify.com/admin/api/2023-01/products.json"
+    url,headers=api_and_header(shop)
 
-    headers={
-        "Content-Type":"application/json",
-        "X-Shopify-Access-Token":"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"
-    }
     data=product
     
     if file:
@@ -35,14 +28,12 @@ def create_shopify_data(product=None,file=True):
     return ApiResponse(response_code=response.status_code, body=response.json(), headers=response.headers) 
 
 
-def update_shopify_data(product_id,product=None,file=True):
+def update_shopify_data(shop ,product_id ,product=None , file=True):
 
-    url="https://vabhas-test.myshopify.com/admin/api/2023-01/products/%s.json" % (product_id)
-    headers={
-        "Content-Type":"application/json",
-        "X-Shopify-Access-Token":"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"
-    }
+    url,headers=api_and_header(shop=shop , product_id=product_id , update_url=True)
+
     data=product
+
     if file:
         with open('update_data.json', 'r') as f:
             data = json.load(f)
@@ -50,6 +41,7 @@ def update_shopify_data(product_id,product=None,file=True):
     response=requests.put(url=url,data=data,headers=headers)
 
     return ApiResponse(response_code=response.status_code, body=response.json(), headers=response.headers)
+
 
 def delete_shopify_data(type,id):
 

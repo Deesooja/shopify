@@ -1,5 +1,4 @@
-from django.conf import settings
 
-def checkrestservices():
-    print()
+# def postRequest(product,shop):
+
 

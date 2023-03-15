@@ -150,4 +150,11 @@ class CreateProductImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
-    
+# <--------------------------------------------------Shop_table------->
+
+class Shop(models.Model):
+    domain_name = models.CharField(max_length=250)
+    access_token = models.CharField(max_length=255)
+    use_it = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)

@@ -12,11 +12,13 @@ from .models import *
 import json
 from App.services.ShopifyServices import *
 from App.services.RestServices import *
+from App.services.GenralServices import *
 
 
 # Create your views here.
 
 # <----------------------------------------Shopify Get Data--------------------------->
+
 class IndexView(View):
 
     def get(self,request,*args, **kwargs):
@@ -24,11 +26,13 @@ class IndexView(View):
 
         product_obj=Product.objects.get(id=66)
 
+        shop=Shop.objects.get(id=1)
+
         product_dict=model_obj_to_dict_converter(product_obj)
       
         product_dict=json.dumps(product_dict,cls=DjangoJSONEncoder)
 
-        shopify_data=get_shopify_data()
+        shopify_data=get_shopify_data(shop)
 
         for product_dict in shopify_data.get('products'):
 
@@ -44,11 +48,16 @@ class CreateDataView(View):
     def get(self,request,*args, **kwargs):
 
         context={}
-       
+        
 
-        # product_object=CreateProduct.objects.get(id=9)
+        product_object=CreateProduct.objects.get(id=9)
+        shop=Shop.objects.get(id=1)
+        # url,headers=api_and_header(shop)
+      
+        # print(url)
+        # print(headers)
 
-        # created=creating_shopify_product_by_create_dbtable(product_object)
+        # created=creating_shopify_product_by_create_dbtable(shop,product_object)
         # if created:
         #     print('views ok')
         # else:
@@ -77,15 +86,27 @@ class UpdateDataView(View):
 
     def get(self,request,*args, **kwargs):
         context={}
-        updated=updating_shopify_product_by_dbtable()
+
+        product_object=Product.objects.get(id=66)
+
+        shop=Shop.objects.get(id=1)
+
+        updated=updating_shopify_product_by_dbtable(shop , product_object )
+
         if updated:
-            
+
             print('updated')
+
         else:
+
             print('not updated')
         
 
-        # product_obj=Product.objects.get(id=66)
+
+
+        # url,headers=api_and_header(shop , product_object.product_id , update_url=True)
+        # print(url)
+        # print(headers)
 
         # product_dict=model_obj_to_dict_converter(product_obj,update=True)
 
