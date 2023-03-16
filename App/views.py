@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.views import View
 from .module.insert_data_in_db import insert_data
 from .module.model_to_dict import *
@@ -13,7 +13,11 @@ import json
 from App.services.ShopifyServices import *
 from App.services.RestServices import *
 from App.services.GenralServices import *
+from App.Response import endpointResponse
 from App.Theads import createCronJob,CreateTheads
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 # Create your views here.
@@ -49,6 +53,21 @@ class CreateDataView(View):
     def get(self,request,*args, **kwargs):
 
         context={}
+
+
+
+        with open('update_json_create_db.json', 'r') as f:
+            data = json.load(f)
+        # print(data.get('product'))
+        updated=updateProductOnCreateTable(data.get('product'))
+        print(updated)
+
+
+        # with open('post_data.json', 'r') as f:
+        #     data = json.load(f)
+        # # print(data.get('product'))
+        # created=createProductOnCreateTable(data.get('product'))
+        # print(created)
         # t=CreateTheads(target_fun=createCronJob)
         # t.daemon=True
         # t.start()
@@ -95,13 +114,13 @@ class UpdateDataView(View):
     def get(self,request,*args, **kwargs):
         context={}
 
-        def create(word):
-            for i in range(5):
-                print(word)
+        # def create(word):
+        #     for i in range(5):
+        #         print(word)
 
-        def update(word):
-            for i in range(5):
-                print(word)
+        # def update(word):
+        #     for i in range(5):
+        #         print(word)
 
 
 
@@ -169,5 +188,114 @@ class ProductDetailsTableView(View):
     
 
 # <--------------------------------Creating views class for Endpoint------------------->
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CreateProductEndpoint(View):
+
+    def get(self,request,*args, **kwargs):
+
+        product_id,start,end=kwargs.get('product_id',None),kwargs.get('start',None),kwargs.get('end',None)
+        
+        products={"products":[]}
+
+        if len(kwargs)>0:
+
+            if start and end :
+                
+                for product_object in CreateProduct.objects.all()[int(start):int(end)]:
+
+                    products['products'].append(model_obj_to_dict_converter_for_create_table(product_object))
+
+                return endpointResponse(status_code=200,massage="OK",data=products)
+
+            if product_id:
+
+                if CreateProduct.objects.filter(id=product_id).exists():
+
+                    product_json=model_obj_to_dict_converter_for_create_table(CreateProduct.objects.get(id=product_id))
+
+                    return endpointResponse(status_code=200,massage="OK",data=product_json)
+                
+                return endpointResponse(status_code=400,massage="Product_id Does Not exist",data=[])
+           
+        else:
+
+            for product_object in CreateProduct.objects.all():
+
+                products['products'].append(model_obj_to_dict_converter_for_create_table(product_object))
+
+                return endpointResponse(status_code=200,massage="OK",data=products)
+
+    
+    def post(self,request,*args, **kwargs):
+        response={}
+
+        data=json.loads(request.body)
+
+        product=data.get('product')
+
+        json_respose=json.loads(json.dumps(data,indent = 4))
+
+        created=createProductOnCreateTable(product)
+
+        # created=True
+        if created:
+
+            response['status_code']=201
+
+            response['massage']="Created"
+
+            response['data']=json_respose
+
+            return JsonResponse(response)
+
+        response['status_code']=400
+
+        response['massage']="Bad Request"
+
+        response['data']=[]
+
+        return JsonResponse(response)
+
+        
+    
+    def put(self,request,*args, **kwargs):
+
+        data=json.loads(request.body)
+
+        product=data.get('product')
+
+        json_respose=json.loads(json.dumps(data,indent = 4))
+
+        updated=updateProductOnCreateTable(product)
+
+        if updated:
+            
+            return endpointResponse(status_code=200,massage="Updated",data=json_respose)
+        
+        return endpointResponse(status_code=400,massage="Not Updated ",data=[])
+        
+    
+    def delete(self,request,*args, **kwargs):
+
+        product_id=kwargs.get('product_id',None)
+
+        if product_id is not None:
+
+            if CreateProduct.objects.filter(id=product_id).exists():
+
+                delete_count=product_object=CreateProduct.objects.get(id=product_id)
+
+                if delete_count:
+
+                    return endpointResponse(status_code=200,massage="Product Deleted",data=[])
+                
+                return endpointResponse(status_code=400,massage="Product Not  Deleted",data=[])
+
+            return endpointResponse(status_code=400,massage="Product_id Does not Exist",data=[])
+        
+        return endpointResponse(status_code=404,massage="Product_id required on endpoint",data=[])
+
+
 
 

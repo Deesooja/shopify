@@ -1,4 +1,4 @@
-
+from django.http import HttpResponse,JsonResponse
 class ApiResponse:
     def __init__(self, response_code, body, headers=None):
         
@@ -17,3 +17,16 @@ class ApiResponse:
         self.status_code = response_code
         
         
+def endpointResponse(status_code,massage,data):
+
+    response={}
+
+    response['status_code']=status_code
+
+    response['massage']=massage
+
+    response['data']=data
+
+    return JsonResponse(response)
+
+   

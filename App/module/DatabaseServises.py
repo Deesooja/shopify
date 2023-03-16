@@ -1,5 +1,6 @@
 from App.module.insert_data_in_db import *
 from App.models import *
+import datetime
 
 def createProduct(shop , product_dict):
 
@@ -105,4 +106,41 @@ def updateProduct(product_dict):
         if len(image_dict) >0:
 
             insert_data(ProductImage,image_dict,product_obj,None,'image_id',True)
+    return True
+
+
+def updateProductOnCreateTable(product_dict):
+    
+    product_obj=insert_data(CreateProduct,product_dict,None,None,'product_id',False,None,True)
+
+    if len(product_dict.get('variants')) >0:
+
+        for variant_dict in product_dict.get('variants'):
+
+            insert_data(CreateProductVariant,variant_dict,product_obj,None,'variant_id',False,None,True)
+    
+    if len(product_dict.get('options')) > 0:
+
+        for option_dict in product_dict.get('options'):
+
+            option_obj=insert_data(CreateProductOption,option_dict,product_obj,None,'option_id',False,None,True)
+
+            for value in option_dict.get('values'):
+
+                CreateProductOptionValues.objects.filter(option=option_obj).update(product=product_obj,option=option_obj,value=value,created_at=option_dict.get('created_at'),updated_at=str(datetime.datetime.now()))
+
+    if len(product_dict.get('images')) > 0:
+
+        for images_dict in product_dict.get('images'):
+
+            insert_data(CreateProductImages,images_dict,product_obj,None,'image_id',False,None,True)
+
+    image_dict=product_dict.get('image')
+
+    if image_dict:
+
+        if len(image_dict) >0:
+
+            insert_data(CreateProductImage,image_dict,product_obj,None,'image_id',False,None,True)
+
     return True

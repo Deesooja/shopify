@@ -1,7 +1,7 @@
 import requests
 import json
 from App.models import *
-from App.ApiResponseObject import ApiResponse
+from App.Response import ApiResponse
 from App.services.GenralServices import *
 
 def get_shopify_data(shop):
